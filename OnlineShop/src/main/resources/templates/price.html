@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>price</title>
+<th:block th:include="layout/header"></th:block>
+</head>
+<body>
+
+
+	<div class="container">
+		<div>
+			<form class="form-horizontal" th:object="${productPriceDTO}"
+				th:action="@{/savePrice}" method="post"
+				enctype="multipart/form-data">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-1">
+						<input type="hidden" class="form-control" th:field="*{priceId}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Category *</label>
+					<div class="col-sm-3">
+						<select class="form-control" id="category" onchange="myFunction()">
+							<option value="default" class="form-control">select
+								category</option>
+							<option th:each="value : ${categorys}" th:value="${value.cateId}"
+								th:text="${value.cateName}" class="form-control" />
+						</select>
+					</div>
+
+					<label class="col-sm-1 control-label">item *</label>
+					<div class="col-sm-3">
+						<select class="form-control" th:field="*{product.itemId}">
+							<option value="default" class="form-control btn btn-primary">select
+								Product</option>
+							<option th:each="value : ${products}" th:value="${value.itemId}"
+								th:text="${value.itemName}" class="form-control btn btn-primary" />
+						</select>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-2 control-label"> purchase price *</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"
+							th:field="*{purchase_price}" />
+					</div>
+
+					<label class="col-sm-1 control-label"> retails price *</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"
+							th:field="*{retails_price}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-2 control-label"> quantity *</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control"
+							th:field="*{item_quantity}" />
+					</div>
+
+					<label class="col-sm-1 control-label"> size *</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" th:field="*{productSize}" />
+					</div>
+				</div>
+
+				<div class="form-group col-sm-15" style="margin-left: 15%">
+					<div class="col-sm-10 form-group">
+						<label class="col-sm-1 control-label"></label>
+						<button type="submit" class="col-sm-2 btn btn-primary">Add</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+	</div>
+	<div></div>
+
+	<div th:if="${not #lists.isEmpty(prices)}">
+		<h4>All product price</h4>
+
+
+
+		<table class="table table-striped">
+			<tr>
+				<td colspan="7" />
+				<td>total capital : <b
+					th:text="${#aggregates.sum(prices.![total_capital])}" /></td>
+				<td>total retails : <b
+					th:text="${#aggregates.sum(prices.![total_price])}" /></td>
+
+				<td>total profit : <b
+					th:text="${#aggregates.sum(prices.![total_profit])}" /></td>
+			</tr>
+
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>item quantity</th>
+				<th>price code</th>
+				<th>size</th>
+				<th>purchase price</th>
+				<th>retails price</th>
+				<th>total purchase</th>
+				<th>total retails</th>
+				<th>individual profit</th>
+
+			</tr>
+			<tr th:each="value, rowStat : ${prices}">
+				<td th:text="${rowStat.count}"></td>
+				<td th:text="${value.product.itemName}"></td>
+				<td th:text="${value.strignQuantity}" class="bg-white text-danger">item
+					quantity</td>
+				<td th:text="${value.bar_code}">price code</td>
+				<td th:text="${value.productSize}">size</td>
+				<td th:text="${value.purchase_price}">purchase price</td>
+				<td th:text="${value.retails_price}">retails price</td>
+				<td th:text="${value.total_capital}">total purchase</td>
+				<td th:text="${value.total_price}">total retails</td>
+				<td th:text="${value.individual_profit}">total retails</td>
+
+			</tr>
+		</table>
+
+		<div class="container">
+			<ul class="pagination">
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+		
+	</script>
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function myFunction() {
+			$("#category").change(function() {
+				var selectedOption = $('#category').val();
+				window.location.replace('category?id=' + selectedOption);
+			});
+		});
+	</script>
+
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function() {
+			$('#example').DataTable();
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Product</title>
+<th:block th:include="layout/header"></th:block>
+</head>
+<body>
+	<div class="container">
+
+		<div>
+			<form class="form-horizontal" th:object="${productDTO}"
+				th:action="@{/saveItem}" method="post"
+				enctype="multipart/form-data">
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-1">
+						<input type="hidden" class="form-control" th:field="*{itemId}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> Name *</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{itemName}" />
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> brand *</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{itemBrand}" />
+					</div>
+				</div>
+				
+				
+				 <div class="form-group">
+					<label class="col-sm-2 control-label">Category *</label>
+					<div class="col-sm-4">
+						<select class="form-control" th:field="*{category.cateId}">
+							<option value="default" class="form-control">select category</option>
+							<option th:each="value : ${categorys}" th:value="${value.cateId}"
+								th:text="${value.cateName}" class="form-control" />
+						</select>
+					</div>
+				</div>  
+				
+            <div class="form-group">
+					<label class="col-sm-2 control-label"> about *</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{itemAbout}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+                <label class="col-sm-2 control-label"> Photo *</label>
+                <div class="col-sm-4">
+                    <input type="file" class="form-control" th:field="*{photos}" style="height:12%"/>
+                </div>
+            </div>
+
+				<div class="form-group" style="margin-left: 15%">
+					<div class="col-sm-8">
+						<button type="submit" class="btn btn-primary col-sm-2">Add</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+	</div>
+	
+	<div th:if="${not #lists.isEmpty(products)}">
+			<h4>All Products</h4>
+			<table class="table table-striped">
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>item code</th>
+					<th>brand</th>
+					 <th>category</th>
+					<th>about</th>
+					<th>date</th>
+					<th>image</th>
+				</tr>
+				<tr th:each="value, rowStat : ${products}">
+				 <td th:text="${rowStat.count}"></td>  
+					<td th:text="${value.itemName}">Name</td>
+					<td th:text="${value.itemCode}">item code</td>
+					<td th:text="${value.itemBrand}">brand</td>
+					 <td th:text="${value.category.cateName}">category</td>
+					<td th:text="${value.itemAbout}">about</td>
+					<td th:text="${value.createDate}">date</td>
+					<td style="height: none; width: none "><img th:src="${value.itemImage}" height="40px" width="40px"/></td>
+
+					<!--   <td><a th:href="${'/product/edit/'+value.itemId}" class="btn btn-danger">Edit</a></td> -->
+                <!-- <td><a th:href="${'/student/delete/'+value.studentID}" class="btn btn-danger">Delete</a></td>  -->
+				</tr>
+			</table>
+		</div>
+
+
+</body>
+</html>

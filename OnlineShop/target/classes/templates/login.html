@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Login </title>
+<th:block th:include="layout/loginHeader"></th:block>
+</head>
+<body class="bg-primary" style="margin-top: 12%">
+	<div class="container">
+		<div>
+			<form class="form-horizontal" th:object="${loginDTO}"
+				th:action="@{/login}" method="post" enctype="multipart/form-data">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-1">
+						<input type="hidden" class="form-control" th:field="*{loginId}" />
+					</div>
+				</div>
+
+				<div class="form-group position-sticky">
+					<label class="col-sm-2 control-label">User name *</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{userName}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Password *</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{password}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-4">
+						<button type="submit"
+							class="bg-primary btn btn-default btn-lg btn-block">Login</button>
+					</div>
+					<br />
+
+					<div class="form-group" style="margin-left: 27rem">
+						<label class="col-sm-8 control-label"> </label>
+						<div class="col-sm-8">
+							<a th:href="@{/signUp}" class="btn btn-primary">Sign Up</a>
+							
+							<a th:href="@{/reset}" class="text-danger" style="margin-left: 3rem">Reset Password</a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

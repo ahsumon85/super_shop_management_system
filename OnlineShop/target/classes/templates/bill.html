@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Category</title>
+<th:block th:include="layout/header"></th:block>
+
+</head>
+<body>
+	<div class="container">
+	
+
+
+		<div>
+
+			<div th:if="${not #lists.isEmpty(billList)}">
+				<h5 class="contant">All bills List</h5>
+				<table class="table table-striped">
+					<tr>
+						<th>Id</th>
+						<th>bill id</th>
+						<th>create date</th>
+						<th>Action</th>
+					</tr>
+					<tr th:each="value, rowStat : ${billList}">
+						<td th:text="${rowStat.count}"></td>
+						<td th:text="${value.custBillId}">bill id</td>
+						<td th:text="${value.createDate}">date</td>
+						<td><a th:href="${'/bill/details/'+value.billId}">Details</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		<div th:if="${not #lists.isEmpty(billDetails)}">
+			<th><td><a th:href="@{/bill}" class="btn btn-primary " style="margin-bottom: 15px"> go back </a></td></th>
+			<table class="table table-striped ">
+			
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>quantity</th>
+				<th>price</th>
+				<th>total</th>
+			</tr>
+			<tr th:each="value, rowStat : ${billDetails}">
+				<td th:text="${rowStat.count}"></td>
+			 	<td th:text="${value.productName}"></td> 
+				<td th:text="${value.quantity}"></td>
+				<td th:text="${value.purchase_price}"></td>
+				<td th:text="${value.totualPrice}"></td> 
+			</tr>
+			
+			<td colspan="4" />
+				<td><b th:text="${#aggregates.sum(billDetails.![totualPrice])}" /></td>
+		</table>
+		
+		</div>
+
+		
+	</div>
+
+
+</body>
+</html>

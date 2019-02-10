@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Category</title>
+<th:block th:include="layout/header"></th:block>
+</head>
+<body>
+	<div class="container">
+
+		<div>
+			<form class="form-horizontal" th:object="${categoryDTO}"
+				th:action="@{/saveCategory}" method="post"
+				enctype="multipart/form-data">
+
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-1">
+						<input type="hidden" class="form-control" th:field="*{cateId}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> Name:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" th:field="*{cateName}" />
+					</div>
+				</div>
+			
+
+				<div class="form-group" style="margin-left: 15%">
+					<div class="col-sm-8">
+						<button type="submit" class="btn btn-primary">Add</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+
+		<div>
+			<h5>All Categorys</h5>
+			<table class="table table-striped">
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>create by</th>
+					<th>date</th>
+					<th>Action</th>
+				</tr>
+				<tr th:each="value, rowStat : ${categorys}">
+				 <td th:text="${rowStat.count}"></td>  
+					<td th:text="${value.cateName}">Name</td>
+					<td th:text="${value.createBy}">create by</td>
+					<td th:text="${value.createDate}">date</td>
+
+					 <td><a th:href="${'/category/edit/'+value.cateId}" class="btn btn-danger">Edit</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+
+</body>
+</html>

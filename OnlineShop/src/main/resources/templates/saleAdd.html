@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>price</title>
+<th:block th:include="layout/header"></th:block>
+</head>
+<body>
+	<div class="container">
+		<div>
+			<form class="form-horizontal" th:object="${salesDTO}"
+				th:action="@{/salesList}" method="POST"
+				enctype="multipart/form-data">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label"></label>
+					<div class="col-sm-1">
+						<input type="hidden" class="form-control" th:field="*{saleId}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-1 control-label">item *</label>
+					<div class="col-sm-3">
+						<select class="form-control" th:field="*{price.priceId}">
+							<option value="default" class="form-control btn btn-primary">select
+								Product</option>
+							<option th:each="value : ${prices}"
+								th:value="${value.product.itemId}"
+								th:text="${value.product.itemName}"
+								class="form-control btn btn-primary" th:if="${value.item_quantity != 0}" />
+						</select>
+					</div>
+				</div>
+				
+				
+
+				<div class="form-group">
+					<label class="col-sm-1 control-label"> quantity *</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" th:field="*{quantity}" />
+					</div>
+				</div>
+
+				<div class="form-group col-sm-15" style="margin-left: 15%">
+					<label class="col-sm-1 control-label"></label>
+					<button type="submit" class="col-sm-1 btn btn-primary">Add</button>
+					<label class="col-sm-1 control-label"></label> <a
+						th:href="@{/resetList}" class="btn btn-primary">Reset</a>
+				</div>
+
+			</form>
+		</div>
+	</div>
+	
+	<form class="container" th:action="@{/saveSales}" method="POST">
+		<div>
+			<table class="table table-striped">
+				<td colspan="4" />
+				<td>Total :<b th:text="${#aggregates.sum(salesList.![totualPrice])}" th:if="${not #lists.isEmpty(salesList)}"/></td>
+				<td/>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>quantity</th>
+					<th>price</th>
+					<th>total</th>
+					
+				</tr>
+				<tr th:each="value, rowStat : ${salesList}">
+					<td th:text="${rowStat.count}"></td>
+					<td th:text="${value.productName}"></td>
+					<td th:text="${value.quantity}"></td>
+					<td th:text="${value.purchase_price}"></td>
+					<td th:text="${value.totualPrice}"></td>
+					
+				</tr>
+			</table>
+
+			<div class="form-group col-sm-15" style="margin-left: 15%">
+				<div class="col-sm-10 form-group">
+					<label class="col-sm-1 control-label"></label>
+					<button type="submit" class="col-sm-2 btn btn-primary">Submit</button>
+				</div>
+			</div>
+
+		</div>
+	</form>
+
+</body>
+</html>

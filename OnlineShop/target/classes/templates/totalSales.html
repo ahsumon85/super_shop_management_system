@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Category</title>
+<th:block th:include="layout/header"></th:block>
+
+</head>
+<body>
+	<div class="container">
+		<div th:if="${not #lists.isEmpty(allSalesList)}">
+
+			<form class="form-horizontal" th:object="${billDTO}"
+				th:action="@{/saveCategory}" method="post"
+				enctype="multipart/form-data">
+				<div class="form-group">
+					<label class="col-sm-1 control-label">Search *</label>
+					<div class="col-sm-3">
+						<select class="form-control">
+							<option value="default" class="form-control">select
+								month</option>
+							<option th:each="value : ${billList}"
+								th:value="${value.date}" th:text="${value.date}"
+								class="form-control" />
+						</select>
+					</div>
+				</div>
+			</form>
+
+			<table class="table table-striped ">
+
+
+
+				<td colspan="4"></td>
+				<td><b
+					th:text="${#aggregates.sum(allSalesList.![totualPrice])}" /></td>
+				<td><b
+					th:text="${#aggregates.sum(allSalesList.![individual_profit])}" /></td>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>quantity</th>
+					<th>price</th>
+					<th>total</th>
+					<th>individual profit</th>
+				</tr>
+				<tr th:each="value, rowStat : ${allSalesList}">
+					<td th:text="${rowStat.count}"></td>
+					<td th:text="${value.price.product.itemName}"></td>
+					<td th:text="${value.quantity}"></td>
+					<td th:text="${value.price.retails_price}"></td>
+					<td th:text="${value.totualPrice}"></td>
+					<td th:text="${value.individual_profit}"></td>
+				</tr>
+
+
+			</table>
+
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>
